@@ -48,6 +48,7 @@ class EntityInlineTemplate extends BaseServiceEntityInlineTemplate
     $config_name = "view--" . $theme . '-' . trim($view_name) . '-' . trim($view_display);
     $suggestion_1 = $this->formatName($config_name);
     $templates_views = \Drupal::entityQuery('node')
+    ->accessCheck(TRUE)
       ->condition('type', 'templating')
       ->condition('status', '1')
       ->condition('title', $suggestion_1, 'STARTS_WITH')
@@ -146,7 +147,6 @@ class EntityInlineTemplate extends BaseServiceEntityInlineTemplate
     $id = $entity->id();
     $output = false;
     $hook_name = $this->formatName($entity_name . '--' . $theme . '-' . $bundle . "-" . $mode_view . ".html.twig");
-
     $content = $this->getTemplatingByTitle($hook_name);
     if (!is_object($content)) {
       $theme_base = $this->baseTheme($theme);
@@ -262,6 +262,7 @@ class EntityInlineTemplate extends BaseServiceEntityInlineTemplate
     $libs = \Drupal::entityQuery('node')
       ->condition('type', 'library')
       ->condition('status', '1')
+      ->accessCheck(TRUE)
       ->execute();
     $results = [];
     if (!empty($libs)) {

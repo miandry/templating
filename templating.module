@@ -142,8 +142,8 @@ function templating_theme_suggestions_block_alter(&$suggestions, $variables) {
 function templating_theme_registry_alter(&$theme_registry) {
      $service = \Drupal::service('templating.manager');
     if($service->is_allowed()){
-   //   $theme_registry['block']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
-    //  $theme_registry['html']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
+      $theme_registry['block']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
+      $theme_registry['html']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
     //  $theme_registry['node']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
     //  $theme_registry['views_view']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
     //  $theme_registry['comment']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
@@ -153,7 +153,7 @@ function templating_theme_registry_alter(&$theme_registry) {
   
         $file = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc/'.$item['template'].'.html.twig' ;
         if(file_exists($file)){
-          $theme_registry[$key]['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
+         // $theme_registry[$key]['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
         }
       } 
 

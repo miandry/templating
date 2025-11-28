@@ -45,11 +45,14 @@
  * @ingroup themeable
  */
 #}
+  {% set output = render_page_inline_template(page) %}
+  {% if output %}
+      {{output}}
+  {% else %}
+      {% block templating_content %}
+         {{ page.header }}
+         {{ page.content }}
+         {{ page.footer }}  
+      {% endblock %} 
+  {% endif %} 
 
-{% set to = {
-    'name': 'Miandrilala',
-    'mail': 'miandrilala9@yahoo.fr'
-  } 
-%}
-
-  {{ mz_email_api("Twig Test","<h1>GOOD HELLO</h1>", to )}}
