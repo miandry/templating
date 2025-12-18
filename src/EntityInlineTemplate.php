@@ -359,6 +359,35 @@ class EntityInlineTemplate extends BaseServiceEntityInlineTemplate
       \Drupal::messenger()->addMessage($message);
 
   }
+  public function resetFromFileTemplating($template)
+  { 
+    $file_path = $this->getFilepathTemplating($template);
+    $content = file_get_contents($file_path);
+    $txt_top = $this->topTemplate($template);
+    $txt_bottom = '{% endblock %}';
+    $remove = [
+      $txt_top,
+      $txt_bottom,
+    ];
+   $content = str_replace($remove, '', $content);
+   $nid = $template->id();
+   $template_object = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+   if (!$template_object) {
+    return FALSE;
+   }
+   $content = trim($content);
+   if ($content !== '') {
+    $template_object->set('field_templating_html', $content);
+   }
+   $file_css = $this->getFilepathCSSTemplating($template);
+   $content_css = file_get_contents($file_css);
+   $content_css = trim($content_css);
+    if ($content !== '') {
+      $template_object->set('field_templating_css', $content_css);
+    } 
+   return $template_object->save();
+
+  }
   public function exportTemplating($template)
   {  //kint($template);die();
    

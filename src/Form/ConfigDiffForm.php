@@ -60,7 +60,9 @@ class ConfigDiffForm extends FormBase
       $form['actions']['back'] = array(
         '#type' => 'submit',
         '#value' => t('Back to template'),
-        '#submit' => array('_back_diff_form_submit'),
+        '#submit' => [
+          [$this, '_back_diff_form_submit'],
+        ],
       );
         return  $form ;
     }

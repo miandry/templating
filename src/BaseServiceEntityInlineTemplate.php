@@ -300,8 +300,8 @@ class BaseServiceEntityInlineTemplate
         }
         return  end($nodes);
     }
-    public function is_template_exist($config_name){
-        $array = ['type' => 'templating','status' => true ,'title' => $config_name];
+    public function is_template_exist($hook_name){
+        $array = ['type' => 'templating','status' => true ,'title' => $hook_name];
         $nodes = \Drupal::entityTypeManager()->getStorage('node')
         ->loadByProperties($array);
         if ( empty($nodes) && strpos($config_name, 'block--') === 0) {

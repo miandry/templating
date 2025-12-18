@@ -149,14 +149,14 @@ function templating_theme_registry_alter(&$theme_registry) {
     //  $theme_registry['comment']['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
 
     foreach (   $theme_registry as $key => $item){
-       // kint($item['template']);
-  
-        $file = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc/'.$item['template'].'.html.twig' ;
-        if(file_exists($file)){
-         // $theme_registry[$key]['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
+        // kint($item['template']);
+        if(isset($item['template'])){
+          $file = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc/'.$item['template'].'.html.twig' ;
+          if(file_exists($file)){
+          // $theme_registry[$key]['path'] = \Drupal::service('extension.list.module')->getPath('templating') .'/templates/misc' ;
+          }
         }
       } 
-
     }
 }
 
@@ -247,6 +247,14 @@ function templating_form_alter(&$form, FormStateInterface $form_state, $form_id)
               '#value' => t('Check diff'),
               '#submit' => array('_templating_node_diff_form_submit'),
             );
+            $form['actions']['reset_button'] = array(
+              '#type' => 'submit',
+              '#value' => t('Reset from file'),
+              '#submit' => array('_templating_node_reset_form_submit'),
+              '#attributes' => array('onclick' => 'if(!confirm("This will overwrite database content. Continue ?")){return false;}')
+ 
+            );
+
 
         }
       }
@@ -254,6 +262,11 @@ function templating_form_alter(&$form, FormStateInterface $form_state, $form_id)
 
 
    }
+}
+function _templating_node_reset_form_submit($form,FormStateInterface &$form_state) {
+  $service = \Drupal::service('templating.manager');
+  $template = $form_state->getFormObject()->getEntity();
+  $service->resetFromFileTemplating($template);
 }
 function _templating_node_diff_form_submit($form,FormStateInterface &$form_state) {
   $template = $form_state->getFormObject()->getEntity();
